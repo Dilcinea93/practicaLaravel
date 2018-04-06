@@ -26,7 +26,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [   //el valor de estos campos no se va a mostrar cuando haga las consultas por consola con tinker.
-        'password', 'remember_token',
+        'remember_token',
     ];
 
     protected $casts = [            /*Esta propiedad la agrego porque cuando hago esto en el modelo $table->boolean('admin')->default(false);, laravel me va a crear ese campo pero de tipo tinyint... no se porque... entonces se hace esta propiedad con este array asociativo que dice que campos se van a convertir... en este caso quiero convertir el campo tinyint a boolean */

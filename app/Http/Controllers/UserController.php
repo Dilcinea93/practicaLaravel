@@ -62,22 +62,40 @@ class UserController extends Controller
         // ->with('title',$title)
         // ->with('professions',$professions);
     }
-    public function show($id){
 
+     //public function show($id){ //Para ahorrarme la linea 69, puedo hacer esto....
+    public function show(User $user){ //pero debo tener en cuenta que en la ruta de este controlador tengo que poner el mismo nombre del argumento al parametro.
         //$user= User::find($id);//En este tipo de instrucciones se llama a las funciones definidas en el archivo Elloquent/Builder..  de hecho para ahorrarme el condicional de abajo.... puedo hacer... (linea 71) 
         // if($user==NULL){
         //     return response()->view('errors.404',[],404);//Cuando una pagina no se encuentre hay que enviarle al navegador la orden de que devuelva una respuesta con codigo 404.. porque sino devuelve 200... Eso se puede indicar con esta sintaxis... es lo correcto... es util para los buscadores
         // }
-        $user= User::findOrFail($id);//este metodo dice que si encuentra al usuario, fino.. pero si no lo encuentra, termina la ejecucion del controlador (en este punto), manda al navegador el codigo 404, y ubica automaticamente al archivo 404 de la carpeta errors (por convencion....) para mostrar el error que defini.. osea, esta linea 71 resume lo que hice en las lineas 67 a la 70 
+        //$user= User::findOrFail($id);//este metodo dice que si encuentra al usuario, fino.. pero si no lo encuentra, termina la ejecucion del controlador (en este punto), manda al navegador el codigo 404, y ubica automaticamente al archivo 404 de la carpeta errors (por convencion....) para mostrar el error que defini.. osea, esta linea 71 resume lo que hice en las lineas 67 a la 70 
         //exit('Linea no alcanzada');
 
 
-        //dd($user);
+       // dd($user);
        
         return view('users-show',compact('user'));
     }
 
     public function create(){
-    	return "Crear usuario nuevo";
+    	return view('create');
+    }
+
+    public function store(){
+        $data= request()->all();
+        //dd($data);
+        if(empty($data['name'])){
+            return redirect('usuarios/nuevo')->withErrors([
+                'name'=>'El campo es obligatorio'
+            ]);
+        }
+        User::create([
+            'name'=>$data['name'],
+            'email'=>$data['email'],
+            'password'=>bcrypt($data['password'])
+        ]);
+        return redirect('usuarios'); //esta es una forma de redireccionar.. abajo hay otra
+       // return redirect()->route('usuarios');  //route es para utilizar las rutas por su nombre
     }
 }

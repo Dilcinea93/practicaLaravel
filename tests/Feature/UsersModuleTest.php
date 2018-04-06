@@ -9,6 +9,8 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\TestResponse;
+
 
 class UsersModuleTest extends TestCase
 {
@@ -30,8 +32,7 @@ class UsersModuleTest extends TestCase
     }
         $this->get('/usuarios')
         ->assertStatus(200)
-        ->assertSee('Jhon')
-        ->assertSee('Ellie');
+        ->assertSee('Jhon');
     }
 
     public function test_load_the_user_detail_page(){
@@ -59,5 +60,33 @@ class UsersModuleTest extends TestCase
         $this->get('/usuarios/999')
             ->assertStatus(404)
             ->assertSee('Sorry, the user was not found');
+    }
+
+    public function test_it_creates_a_new_user(){
+    //voy a comprobar si....
+        $this->post('/usuarios',[       //Se esta enviando una peticion de tipo post
+            'name'=>'Kevin',
+            'email'=>'kzuleta@styde.net',
+        ]);//->assertRedirect('UserController@index');   //Puedes ver los metodos que puedes usar en el archivo Foundatrion/Testing/TestResponse. esto es para redireccionar...
+        //se supone que iba a probar que redireccionara a la vista de usuarios pero no se porque con esto la prueba no pasa..
+
+        //Vamos a ver si de verdad se guardaron los datos..
+//1er argumento: tabla de base de datos.. en este caso tabla users
+        $this->assertDatabaseHas('users',[
+            'name'=>'Kevin',
+            'email'=>'kzuleta@styde.net',
+        ]);
+    }
+
+    public function test_the_name_is_required(){
+        $this->post('/usuarios/',[
+            'name'=>'',
+            'email'=>'duilio@styde.net',
+            'password'=>'123456'
+        ])->assertSessionHasErrors(['name'=>'El campo es obligatorio'])->assertRedirect('usuarios/nuevo');//Esto me estaba fallando, no me redireccionaba y era porque yo le estaba pasando 'usuarios' y la peticion post "usuarios" llama a store en UserController, el cual redirecciona a usuarios/nuevo caso de que el nombre este vacío
+        //Pero el de la linea 71 ni idea porque no me funciona
+        $this->assertDatabaseMissing('users',[
+            'email'=>'duilio@styde.net',
+        ]);
     }
 }

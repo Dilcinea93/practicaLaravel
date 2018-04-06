@@ -25,7 +25,9 @@
 	
 </table> -->
 
-
+<button class="btn btn-default">
+	<a href="{{action('UserController@create')}}">Crear nuevo usuario</a>
+</button>
 		<table class="table table-striped">
 		<thead>
 		    <tr>                            

@@ -32,7 +32,8 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
+            \App\Http\Middleware\VerifyCsrfToken::class,//Si quiero desactivar la proteccion csrf (q me protege de que sitios de terceros hagan peticiones post a mi aplicacion) entonces comenta esta linea... sino, recuerda en tus peticiones post poner la siguiente linea {!! csrf_field() !!}
+            /*Pero ahorita no la voy a desactivar.. para que? xD*/
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
