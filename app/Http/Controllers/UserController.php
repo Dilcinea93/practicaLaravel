@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Profession;
 use App\User;
+use \Illuminate\Validation\Validator;
 
 class UserController extends Controller
 {
@@ -83,13 +84,32 @@ class UserController extends Controller
     }
 
     public function store(){
-        $data= request()->all();
+        //$data= request()->all();
+
+        // $validator = Validator::make($request->all(), [
+        //     'name' => 'required|unique:posts|max:10',
+        //     'email' => 'required',
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return redirect('usuarios/nuevo')
+        //                 ->withErrors([
+        //         'name'=>'El campo nombre es obligatorio',
+        //         'email'=>'Debes introducir un email'
+        //     ])
+        //     ->withInput();
+        // }
+        //No se, dice que el metodo validate no existe.. y no me funciona esta validacion asi... asi que la hice con withErrors..
+        // $data= request()->validate([     (estas tres lineas no me funcionan)
+        //     'name'=>'required'
+        // ]);
         //dd($data);
-        if(empty($data['name'])){
+         if(empty($data['name'])){       //ESTO ME FUNCIONA::: (5 lineas )
             return redirect('usuarios/nuevo')->withErrors([
-                'name'=>'El campo es obligatorio'
-            ]);
-        }
+                'name'=>'El campo nombre es obligatorio',
+                'email'=>'Debes introducir un email'
+            ])->withInput();
+         }
         User::create([
             'name'=>$data['name'],
             'email'=>$data['email'],

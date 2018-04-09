@@ -67,7 +67,7 @@ class UsersModuleTest extends TestCase
         $this->post('/usuarios',[       //Se esta enviando una peticion de tipo post
             'name'=>'Kevin',
             'email'=>'kzuleta@styde.net',
-        ]);//->assertRedirect('UserController@index');   //Puedes ver los metodos que puedes usar en el archivo Foundatrion/Testing/TestResponse. esto es para redireccionar...
+        ]);//->assertRedirect('usuarios');   //Puedes ver los metodos que puedes usar en el archivo Foundatrion/Testing/TestResponse. esto es para redireccionar...
         //se supone que iba a probar que redireccionara a la vista de usuarios pero no se porque con esto la prueba no pasa..
 
         //Vamos a ver si de verdad se guardaron los datos..
@@ -80,13 +80,14 @@ class UsersModuleTest extends TestCase
 
     public function test_the_name_is_required(){
         $this->post('/usuarios/',[
-            'name'=>'',
-            'email'=>'duilio@styde.net',
-            'password'=>'123456'
-        ])->assertSessionHasErrors(['name'=>'El campo es obligatorio'])->assertRedirect('usuarios/nuevo');//Esto me estaba fallando, no me redireccionaba y era porque yo le estaba pasando 'usuarios' y la peticion post "usuarios" llama a store en UserController, el cual redirecciona a usuarios/nuevo caso de que el nombre este vacío
+            'email'=>'jquintero@styde.net',
+            'password'=>bcrypt('laravel')
+        ])->assertSessionHasErrors(['name','email'])->assertRedirect('usuarios/nuevo');//Esto me estaba fallando, no me redireccionaba y era porque yo le estaba pasando 'usuarios' y la peticion post "usuarios" llama a store en UserController, el cual redirecciona a usuarios/nuevo caso de que el nombre este vacío
         //Pero el de la linea 71 ni idea porque no me funciona
         $this->assertDatabaseMissing('users',[
-            'email'=>'duilio@styde.net',
+            'email'=>'jquintero@styde.net',
         ]);
+
+        // $this->assetEquals(0,User::count()); NO ME FUNCIONA EN ESTE LARAVEL
     }
 }
