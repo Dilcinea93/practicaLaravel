@@ -82,7 +82,7 @@ class UserController extends Controller
     public function create(){
     	return view('create');
     }
-
+ 
     public function store(){
         //$data= request()->all();
 

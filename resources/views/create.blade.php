@@ -13,7 +13,7 @@
 <?php// dd($errors);?>
 @if($errors->any()) <!-- La variable errors es enviada automaticamente de laravel a la vista-->
     <div class="alert alert-danger">
-       <!--  <ul>
+       <!--  <ul> 
             @foreach($errors->all() as $error) 
             
                 <li>{{$error}}</li>
