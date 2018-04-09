@@ -108,7 +108,7 @@ class UserController extends Controller
             return redirect('usuarios/nuevo')->withErrors([
                 'name'=>'El campo nombre es obligatorio',
                 'email'=>'Debes introducir un email'
-            ])->withInput();
+            ])->withInput(); 
          }
         User::create([
             'name'=>$data['name'],
