@@ -77,7 +77,7 @@ class UsersModuleTest extends TestCase
             'email'=>'kzuleta@styde.net',
         ]);
     }
-
+ 
     public function test_the_name_is_required(){
         $this->post('/usuarios/',[
             'email'=>'jquintero@styde.net',

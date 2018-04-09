@@ -8,7 +8,7 @@
 	<div class="col-md-5 col-md-offset-5">
 		<a href="{{url('/usuarios')}}">Volver al listado de usuarios</a>
 	</div>
-</div>
+</div> 
 	<h1>Crear usuario</h1>
 <?php// dd($errors);?>
 @if($errors->any()) <!-- La variable errors es enviada automaticamente de laravel a la vista-->

@@ -17,6 +17,7 @@ Route::get('/',function(){
 Route::get('/usuarios','UserController@index')
 	->name('users');
 
+
 Route::get('/usuarios/{user}','UserController@show')
 	->where('user','[0-9]+')
 	->name('users.show');
@@ -24,7 +25,7 @@ Route::get('/usuarios/{user}','UserController@show')
 Route::get('usuarios/nuevo','UserController@create')
 	->name('users.create');
 
-Route::post('usuarios/','UserController@store');// las peticiones post no se hacen desde el navegador.. sino desde un formulario... pero el formulario va a ubicar a esta ruta... 
+Route::post('usuarios','UserController@store');// las peticiones post no se hacen desde el navegador.. sino desde un formulario... pero el formulario va a ubicar a esta ruta... 
 
 Route::get('usuarios/{name}/{nickname?}','welcomeUserController');
 	
