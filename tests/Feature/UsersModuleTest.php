@@ -90,4 +90,16 @@ class UsersModuleTest extends TestCase
 
         // $this->assetEquals(0,User::count()); NO ME FUNCIONA EN ESTE LARAVEL
     }
+
+    public function test_the_email_is_required(){
+         $this->post('/usuarios/',[
+            'name'=>'Juans@gmail.com',
+            'email'=>'',
+            'password'=>bcrypt('laravel')
+        ])->assertSessionHasErrors(['email'])->assertRedirect('usuarios/nuevo');//Esto me estaba fallando, no me redireccionaba y era porque yo le estaba pasando 'usuarios' y la peticion post "usuarios" llama a store en UserController, el cual redirecciona a usuarios/nuevo caso de que el nombre este vacío
+        //Pero el de la linea 71 ni idea porque no me funciona
+        $this->assertDatabaseMissing('users',[
+            'email'=>'Juans@gmail.com',
+        ]);
+    }
 }
